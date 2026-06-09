@@ -1,0 +1,29 @@
+extends ../layout
+
+block content
+  h1 Nueva publicación
+
+  div.card
+    form(method="POST", action="/posts")
+      p
+        label(for="title") Título
+      p
+        input(type="text", name="title", id="title", required)
+
+      p
+        label(for="description") Descripción
+      p
+        textarea(name="description", id="description", rows="4")
+
+      p
+        label(for="image") URL de imagen
+      p
+        input(type="text", name="image", id="image")
+
+      p
+        label(for="tags") Etiquetas
+      p
+        input(type="text", name="tags", id="tags", placeholder="software, tecnología, innovación")
+
+      p
+        button.btn(type="submit") Guardar publicación

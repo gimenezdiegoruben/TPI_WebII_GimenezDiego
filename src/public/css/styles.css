@@ -123,6 +123,21 @@ body {
   line-height: 1.5;
 }
 
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  margin-bottom: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+button.btn {
+  border: none;
+  cursor: pointer;
+}
+
 .footer {
   background-color: #1f2937;
   color: #00d9ff;

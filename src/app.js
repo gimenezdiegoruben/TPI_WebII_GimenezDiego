@@ -4,6 +4,8 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const postRoutes = require('./routes/post');
+
 app.set('view engine', 'pug');
 app.set('views', './src/views');
 
@@ -15,6 +17,8 @@ app.get('/', (req, res) => {
     title: 'Fotaza 2'
   });
 });
+
+app.use('/posts', postRoutes);
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
