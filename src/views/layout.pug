@@ -1,0 +1,25 @@
+doctype html
+html(lang="es")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title #{title}
+    link(rel="stylesheet", href="/css/styles.css")
+  body
+    .page-wrapper
+      header.header
+        div.container.navbar
+          a.logo(href="/") Fotaza 2
+          nav.nav
+            a(href="/") Inicio
+            a(href="/posts") Publicaciones
+            a(href="#") Buscar
+            a(href="#") Login
+
+      main.container.main-content
+        block content
+
+      footer.footer
+        div.container
+          p Proyecto integrador Fotaza 2 - Programación Web II
+          p Desarrollado por Gimenez Diego R. (Todos los derechos reservados)

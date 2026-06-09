@@ -11,7 +11,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('src/public'));
 
 app.get('/', (req, res) => {
-  res.send('Fotaza 2 funcionando');
+  res.render('index', {
+    title: 'Fotaza 2'
+  });
 });
 
 app.listen(PORT, () => {
