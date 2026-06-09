@@ -1,0 +1,27 @@
+{
+  "name": "tpi_webii_gimenezdiego",
+  "version": "1.0.0",
+  "description": "Proyecto integrador Fotaza 2 desarrollado con Node.js, Express, Pug y PostgreSQL.",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gimenezdiegoruben/TPI_WebII_GimenezDiego.git"
+  },
+  "keywords": [],
+  "author": "GIMENEZ DIEGO",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/gimenezdiegoruben/TPI_WebII_GimenezDiego/issues"
+  },
+  "homepage": "https://github.com/gimenezdiegoruben/TPI_WebII_GimenezDiego#readme",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "pg": "^8.21.0",
+    "pug": "^3.0.4"
+  }
+}
