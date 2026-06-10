@@ -2,7 +2,6 @@ const express = require('express');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 const postRoutes = require('./routes/post');
 
@@ -20,6 +19,11 @@ app.get('/', (req, res) => {
 
 app.use('/posts', postRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
+if (process.env.VERCEL !== '1') {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
