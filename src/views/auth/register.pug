@@ -1,0 +1,58 @@
+extends ../layout
+
+block content
+  .auth-wrapper
+    .auth-card
+      h1 Crear cuenta
+
+      form(id="register-form" method="POST" action="/auth/register" novalidate)
+      
+        .form-group
+          label(for="name") Nombre de usuario
+          input(type="text", name="name", id="name", placeholder="Diego Gimenez", required)
+          small.error-message(id="error-name")
+
+        .form-group
+          label(for="email") Correo electrónico
+          input(type="email", name="email", id="email", placeholder="diego@email.com", required)
+          small.error-message(id="error-email")
+
+        .form-group
+          label(for="gender") Género
+          select(name="gender", id="gender", required)
+            option(value="") Selecciona una opción
+            option(value="Masculino") Masculino
+            option(value="Femenino") Femenino
+            option(value="No binario") No binario
+            option(value="Otro") Otro
+            option(value="Prefiero no decirlo") Prefiero no decirlo
+          small.error-message(id="error-gender")
+
+        .form-group
+          label(for="password") Contraseña
+          input(type="password", name="password", id="password", placeholder="********", required)
+          small.error-message(id="error-password")
+
+        .form-group
+          label(for="confirmPassword") Confirmar contraseña
+          input(type="password", name="confirmPassword", id="confirmPassword", placeholder="********", required)
+          small.error-message(id="error-confirmPassword")
+
+        .form-group.form-check
+          input(type="checkbox", name="terms", id="terms", required)
+          label(for="terms") Acepto los términos y condiciones
+        small.error-message(id="error-terms")
+
+        p
+          button.btn(type="submit") Registrarme
+
+      p.auth-link
+        | ¿Ya tienes cuenta?
+        a(href="/auth/login") Inicia sesión aquí
+
+      if successMessage
+        .success-box= successMessage
+
+      #success-message
+        // mensaje dinámico 
+  script(src="/js/register-validation.js")

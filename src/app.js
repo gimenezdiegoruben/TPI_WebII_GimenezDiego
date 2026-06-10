@@ -4,6 +4,7 @@ require('dotenv').config();
 const app = express();
 
 const postRoutes = require('./routes/post');
+const authRoutes = require('./routes/auth');
 
 app.set('view engine', 'pug');
 app.set('views', './src/views');
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/posts', postRoutes);
+app.use('/auth', authRoutes);
 
 if (process.env.VERCEL !== '1') {
   const PORT = process.env.PORT || 3000;

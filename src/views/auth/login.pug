@@ -1,0 +1,25 @@
+extends ../layout
+
+block content
+  .auth-wrapper
+    .auth-card
+      h1 Iniciar sesión
+
+      form(method="GET", action="/posts")
+        p
+          label(for="email") Correo electrónico
+        p
+          input(type="email", name="email", id="email", placeholder="diego@email.com", required)
+
+        p
+          label(for="password") Contraseña
+        p
+          input(type="password", name="password", id="password", placeholder="********", required)
+
+        p
+          button.btn(type="submit") Ingresar
+
+      p.auth-link
+        | ¿No tienes cuenta?
+        a(href="/auth/register") Regístrate aquí
+        

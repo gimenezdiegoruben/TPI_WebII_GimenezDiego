@@ -94,10 +94,17 @@ body {
   padding: 12px 20px;
   border-radius: 8px;
   font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.08s ease, box-shadow 0.08s ease, background-color 0.2s ease;
 }
 
 .btn:hover {
   background-color: #45048f;
+}
+
+.btn:active {
+  transform: translateY(2px);
 }
 
 .cards {
@@ -136,6 +143,97 @@ textarea {
 button.btn {
   border: none;
   cursor: pointer;
+}
+
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 0;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 500px;
+  background-color: #12b7d7;
+  padding: 28px;
+  border-radius: 12px;
+  color: #1f2937;
+}
+
+.auth-card h1 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #2a1f3d;
+}
+
+.auth-link {
+  margin-top: 12px;
+  text-align: center;
+  color: #1f2937;
+}
+
+.auth-link a {
+  margin-left: 6px;
+  color: #8b03da;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.auth-link a:hover {
+  color: #45048f;
+  text-decoration: underline;
+}
+
+select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  margin-bottom: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: white;
+  color: #222;
+}
+
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-check input[type="checkbox"] {
+  width: auto;
+  margin: 5;
+}
+
+.form-check label {
+  margin: 0;
+  color: #1f2937;
+}
+
+.error-message {
+  display: block;
+  color: #c72800;
+  font-size: 13px;
+  margin-top: -8px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.input-error {
+  border: 2px solid #ff0000 !important;
+}
+
+.success-box {
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 10px;
+  background-color: #2a1f3d;
+  color: #00ffe7;
+  font-weight: bold;
+  text-align: center;
+  border: 2px solid #8b03da;
 }
 
 .footer {
