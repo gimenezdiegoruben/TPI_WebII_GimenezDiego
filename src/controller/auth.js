@@ -4,6 +4,10 @@ exports.loginForm = (req, res) => {
   });
 };
 
+exports.loginSubmit = (req, res) => {
+  res.redirect('/?auth=ok');
+};
+
 exports.registerForm = (req, res) => {
   res.render('auth/register', {
     title: 'Registrarse'

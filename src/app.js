@@ -13,8 +13,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('src/public'));
 
 app.get('/', (req, res) => {
+  const isLoggedIn = req.query.auth === 'ok';
+
   res.render('index', {
-    title: 'Fotaza 2'
+    title: 'Fotaza 2',
+    isLoggedIn
   });
 });
 
