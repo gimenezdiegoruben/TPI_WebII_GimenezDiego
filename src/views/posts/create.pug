@@ -8,22 +8,22 @@ block content
       p
         label(for="title") Título
       p
-        input(type="text", name="title", id="title", required)
+        input(type="text", name="title", id="title", placeholder="Ingresa un título para la publicación", required)
 
       p
         label(for="description") Descripción
       p
-        textarea(name="description", id="description", rows="4")
+        textarea(name="description", id="description", rows="4", placeholder="Describe brevemente la publicación")
 
       p
-        label(for="image") URL de imagen
+        label(for="image") Imagen de la publicación
       p
-        input(type="text", name="image", id="image")
+        input(type="text", name="image", id="image", placeholder="Por ahora URL de imagen. Más adelante se reemplazará por subida de archivo.")
 
       p
         label(for="tags") Etiquetas
       p
-        input(type="text", name="tags", id="tags", placeholder="software, tecnología, innovación")
+        input(type="text", name="tags", id="tags", placeholder="Ej: software, tecnología, innovación")
 
       p
         button.btn(type="submit") Guardar publicación

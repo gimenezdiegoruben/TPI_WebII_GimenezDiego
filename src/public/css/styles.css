@@ -30,6 +30,11 @@ body {
   margin-bottom: 20px;
 }
 
+.main-content h2 {
+  color: #c6d355;
+  margin: 20px 0 16px 0;
+}
+
 .container {
   width: 90%;
   max-width: 1100px;
@@ -123,11 +128,17 @@ body {
   background-color: #12b7d7;
   padding: 24px;
   border-radius: 12px;
+  margin-bottom: 20px;
 }
 
 .card h2 {
   margin-bottom: 12px;
   color: #4624dd;
+}
+
+.card h3 {
+  color: #4624dd;
+  margin-bottom: 12px;
 }
 
 .card p {
@@ -163,7 +174,7 @@ button.btn {
   background-color: #12b7d7;
   padding: 28px;
   border-radius: 12px;
-  color: #1f2937;
+  color: #ffffff;
 }
 
 .auth-card h1 {
