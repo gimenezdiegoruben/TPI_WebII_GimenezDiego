@@ -1,0 +1,43 @@
+extends ../layout
+
+block content
+  h1 Buscar publicaciones
+
+  .card
+    form(method="GET", action="/search")
+      if isLoggedIn
+        input(type="hidden", name="auth", value="ok")
+
+      p
+        label(for="q") Buscar por palabra clave
+      p
+        input(type="text", name="q", id="q", value=term, placeholder="Ej: tecnología, innovación, software")
+
+      p
+        button.btn(type="submit") Buscar
+
+    if term
+      p
+        strong Búsqueda actual:
+        |  #{term}
+    else
+      p Ingresa una palabra para comenzar a buscar publicaciones.
+
+  if term && results.length > 0
+    h2 Resultados encontrados
+
+    section.cards
+      each post in results
+        .card
+          h3= post.title
+          p
+            strong Autor:
+            |  #{post.author}
+          p
+            strong Etiquetas:
+            |  #{post.tags.join(', ')}
+          p= post.description
+
+  else if term && results.length === 0
+    .card
+      p No se encontraron publicaciones para la búsqueda ingresada.

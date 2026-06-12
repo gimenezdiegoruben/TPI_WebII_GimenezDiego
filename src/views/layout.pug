@@ -9,13 +9,17 @@ html(lang="es")
     .page-wrapper
       header.header
         div.container.navbar
-          a.logo(href="/") Fotaza 2
+          a.logo(href=isLoggedIn ? '/?auth=ok' : '/') Fotaza 2
           nav.nav
-            a(href="/") Inicio
-            a(href="/posts") Publicaciones
-            a(href="/posts/new") Nueva publicación
-            a(href="#") Buscar
-            a(href="/auth/login") Login
+            a(href=isLoggedIn ? '/?auth=ok' : '/') Inicio
+            a(href=isLoggedIn ? '/posts?auth=ok' : '/posts') Publicaciones
+            a(href=isLoggedIn ? '/posts/new?auth=ok' : '/posts/new') Nueva publicación
+            a(href=isLoggedIn ? '/search?auth=ok' : '/search') Buscar
+
+            if isLoggedIn
+              a(href="/auth/logout") Salir
+            else
+              a(href="/auth/login") Login
 
       main.container.main-content
         block content
