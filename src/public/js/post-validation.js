@@ -55,6 +55,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+   //Cuando el usuario empieza a corregir, se borra el error del campo, y el mensaje de exito si existe
+  [titleInput, descriptionInput, imageInput, tagsInput].forEach((field) => {
+    field.addEventListener('input', () => {
+      field.classList.remove('input-error');
+
+      const errorElement = document.getElementById(`error-${field.id}`);
+      if (errorElement) {
+        errorElement.textContent = '';
+      }
+
+      if (successMessage) {
+        successMessage.innerHTML = '';
+      }
+    });
+  });
+
   function showError(fieldId, message) {
     const errorElement = document.getElementById(`error-${fieldId}`);
     const field = document.getElementById(fieldId);
