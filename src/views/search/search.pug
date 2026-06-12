@@ -39,5 +39,5 @@ block content
           p= post.description
 
   else if term && results.length === 0
-    .card
-      p No se encontraron publicaciones para la búsqueda ingresada.
+    .card.empty-results
+  p No se encontraron publicaciones para la búsqueda ingresada.
