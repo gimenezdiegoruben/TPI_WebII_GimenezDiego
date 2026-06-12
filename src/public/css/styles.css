@@ -256,6 +256,10 @@ select {
   margin-top: 20px;
 }
 
+#post-success-message {
+  margin-top: 16px;
+}
+
 .footer {
   background-color: #1f2937;
   color: #00d9ff;
