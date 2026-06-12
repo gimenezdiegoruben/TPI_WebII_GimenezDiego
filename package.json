@@ -4,7 +4,8 @@
   "description": "Proyecto integrador Fotaza 2 desarrollado con Node.js, Express, Pug y PostgreSQL.",
   "main": "src/app.js",
   "scripts": {
-    "start": "node src/app.js"
+    "start": "node src/app.js",
+    "db:init": "psql -U postgres -d fotaza2 -f sql/init.sql"
   },
   "repository": {
     "type": "git",
