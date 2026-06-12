@@ -1,3 +1,5 @@
+const pool = require('../config/db');
+
 const mockPosts = [
   {
     id: 1,
@@ -28,16 +30,48 @@ const mockPosts = [
   }
 ];
 
-exports.index = (req, res) => {
+exports.index = async (req, res) => {
   const isLoggedIn = req.query.auth === 'ok';
   const saved = req.query.saved === '1';
 
-  res.render('posts/index', {
-    title: 'Publicaciones',
-    posts: mockPosts,
-    isLoggedIn,
-    saved
-  });
+  try {
+    const result = await pool.query(`
+      SELECT 
+        posts.id,
+        users.username AS author,
+        TO_CHAR(posts.created_at, 'DD/MM/YYYY') AS date,
+        posts.title,
+        posts.description,
+        posts.image_url AS image,
+        posts.tags
+      FROM posts
+      INNER JOIN users ON posts.user_id = users.id
+      ORDER BY posts.created_at DESC
+    `);
+
+    const posts = result.rows.map(post => ({
+      ...post,
+      tags: post.tags ? post.tags.split(',').map(tag => tag.trim()) : []
+    }));
+
+    const finalPosts = posts.length > 0 ? posts : mockPosts;
+
+    res.render('posts/index', {
+      title: 'Publicaciones',
+      posts: finalPosts,
+      isLoggedIn,
+      saved
+    });
+  } catch (error) {
+    console.error('Error al obtener publicaciones:', error.message);
+
+    res.render('posts/index', {
+      title: 'Publicaciones',
+      posts: mockPosts,
+      isLoggedIn,
+      saved
+    });
+  }
 };
 
 exports.newForm = (req, res) => {
@@ -65,8 +99,23 @@ exports.show = (req, res) => {
   });
 };
 
-exports.create = (req, res) => {
-  res.redirect('/posts?auth=ok&saved=1');
+exports.create = async (req, res) => {
+  const { title, description, image, tags } = req.body;
+
+  try {
+    await pool.query(
+      `
+      INSERT INTO posts (user_id, title, description, image_url, tags)
+      VALUES ($1, $2, $3, $4, $5)
+      `,
+      [1, title, description, image, tags]
+    );
+
+    res.redirect('/posts?auth=ok&saved=1');
+  } catch (error) {
+    console.error('Error al guardar publicación:', error.message);
+    res.status(500).send('No se pudo guardar la publicación.');
+  }
 };
 
 exports.mockPosts = mockPosts; //reutilizar datos en el buscador

@@ -20,3 +20,7 @@ CREATE TABLE IF NOT EXISTS posts (
 
 CREATE INDEX IF NOT EXISTS idx_posts_user_id ON posts(user_id);
 CREATE INDEX IF NOT EXISTS idx_posts_title ON posts(title);
+
+INSERT INTO users (id, username, email, password, gender)
+VALUES (1, 'Diego Gimenez', 'diegogimenez@fotaza.com', 'temporalgimenez', 'Masculino')
+ON CONFLICT (id) DO NOTHING;
