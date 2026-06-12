@@ -3,6 +3,9 @@ extends ../layout
 block content
   h1 Publicaciones
 
+  if saved
+    .success-box Publicación validada y enviada correctamente. Más adelante se guardará en la base de datos.
+
   section.cards
     each post in posts
       div.card

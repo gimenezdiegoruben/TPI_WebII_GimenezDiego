@@ -47,11 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (isValid) {
-      successMessage.innerHTML = `
-        <div class="success-box">
-          Validación correcta. Más adelante la publicación se guardará en la base de datos.
-        </div>
-      `;
+      form.submit();
     }
   });
 

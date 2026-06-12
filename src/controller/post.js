@@ -30,11 +30,13 @@ const mockPosts = [
 
 exports.index = (req, res) => {
   const isLoggedIn = req.query.auth === 'ok';
+  const saved = req.query.saved === '1';
 
   res.render('posts/index', {
     title: 'Publicaciones',
     posts: mockPosts,
-    isLoggedIn
+    isLoggedIn,
+    saved
   });
 };
 
@@ -64,7 +66,7 @@ exports.show = (req, res) => {
 };
 
 exports.create = (req, res) => {
-  res.redirect('/posts?auth=ok');
+  res.redirect('/posts?auth=ok&saved=1');
 };
 
 exports.mockPosts = mockPosts; //reutilizar datos en el buscador
