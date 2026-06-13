@@ -4,6 +4,7 @@ const postController = require('../controller/post');
 
 router.get('/', postController.index);
 router.get('/new', postController.newForm);
+router.post('/:id/comments', postController.addComment);
 router.get('/:id', postController.show);
 router.post('/', postController.create);
 

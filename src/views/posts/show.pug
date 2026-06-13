@@ -3,17 +3,53 @@ extends ../layout
 block content
   h1= post.title
 
-  div.card
+  .card
     p
       strong Autor:
       |  #{post.author}
-
     p
       strong Fecha:
       |  #{post.date}
 
-    img(src=post.image, alt=post.title, style="max-width:100%; border-radius:10px; margin:15px 0;")
+    if post.image
+      img(src=post.image, alt=post.title, style="max-width:100%; border-radius:12px; margin: 14px 0;")
 
     p= post.description
 
-    a.btn(href="/posts") Volver
+    if post.tags && post.tags.length
+      p
+        strong Etiquetas:
+        |  #{post.tags.join(', ')}
+
+    if commented
+      .success-box Comentario agregado correctamente.
+
+    if isLoggedIn
+      form(method="POST", action=`/posts/${post.id}/comments`)
+        p
+          label(for="content") Agregar comentario
+        p
+          textarea(name="content", id="content", rows="4", placeholder="Escribe tu comentario aquí")
+        p
+          button.btn(type="submit") Comentar
+
+    if comments && comments.length > 0
+      h2 Comentarios
+
+      each comment in comments
+        .card
+          p
+            strong Autor:
+            |  #{comment.author}
+          p
+            strong Fecha:
+            |  #{comment.date}
+          p= comment.content
+    else
+      .card.empty-results
+        p Todavía no hay comentarios para esta publicación.
+
+    if isLoggedIn
+      a.btn(href="/posts?auth=ok") Volver
+    else
+      a.btn(href="/posts") Volver

@@ -94,9 +94,14 @@ exports.newForm = (req, res) => {
 exports.show = async (req, res) => {
   const id = Number(req.params.id);
   const isLoggedIn = req.query.auth === 'ok';
+  const commented = req.query.commented === '1';
+
+ if (Number.isNaN(id)) {
+  return res.status(400).send('Identificador de publicación inválido.');
+}
 
   try {
-    const result = await pool.query(
+    const postResult = await pool.query(
       `
       SELECT 
         posts.id,
@@ -113,25 +118,70 @@ exports.show = async (req, res) => {
       [id]
     );
 
-    if (result.rows.length === 0) {
+    if (postResult.rows.length === 0) {
       return res.status(404).send('Publicación no encontrada');
     }
 
+    const commentsResult = await pool.query(
+      `
+      SELECT
+        comments.id,
+        users.username AS author,
+        comments.content,
+        TO_CHAR(comments.created_at, 'DD/MM/YYYY HH24:MI') AS date
+      FROM comments
+      INNER JOIN users ON comments.user_id = users.id
+      WHERE comments.post_id = $1
+      ORDER BY comments.created_at DESC
+      `,
+      [id]
+    );
+
     const post = {
-      ...result.rows[0],
-      tags: result.rows[0].tags
-        ? result.rows[0].tags.split(',').map(tag => tag.trim())
+      ...postResult.rows[0],
+      tags: postResult.rows[0].tags
+        ? postResult.rows[0].tags.split(',').map(tag => tag.trim())
         : []
     };
 
     res.render('posts/show', {
       title: post.title,
       post,
-      isLoggedIn
+      comments: commentsResult.rows,
+      isLoggedIn,
+      commented
     });
   } catch (error) {
     console.error('Error al obtener detalle de publicación:', error.message);
     res.status(500).send('No se pudo cargar la publicación.');
+  }
+};
+
+exports.addComment = async (req, res) => {
+  const postId = Number(req.params.id);
+  const { content } = req.body;
+
+  if (Number.isNaN(postId)) {
+    return res.status(400).send('Identificador de publicación inválido.');
+  }
+  
+  try {
+    if (!content || !content.trim()) {
+      return res.redirect(`/posts/${postId}?auth=ok`);
+    }
+
+    await pool.query(
+      `
+      INSERT INTO comments (post_id, user_id, content)
+      VALUES ($1, $2, $3)
+      `,
+      [postId, 1, content.trim()]
+    );
+
+    res.redirect(`/posts/${postId}?auth=ok&commented=1`);
+  } catch (error) {
+    console.error('Error al guardar comentario:', error.message);
+    res.status(500).send('No se pudo guardar el comentario.');
   }
 };
 
