@@ -96,9 +96,9 @@ exports.show = async (req, res) => {
   const isLoggedIn = req.query.auth === 'ok';
   const commented = req.query.commented === '1';
 
- if (Number.isNaN(id)) {
-  return res.status(400).send('Identificador de publicación inválido.');
-}
+  if (Number.isNaN(id)) {
+    return res.status(400).send('Identificador de publicación inválido.');
+  }
 
   try {
     const postResult = await pool.query(
@@ -137,6 +137,17 @@ exports.show = async (req, res) => {
       [id]
     );
 
+    const ratingResult = await pool.query(
+      `
+      SELECT
+        COUNT(*)::int AS total_votes,
+        COALESCE(ROUND(AVG(value), 1), 0) AS average_rating
+      FROM ratings
+      WHERE post_id = $1
+      `,
+      [id]
+    );
+
     const post = {
       ...postResult.rows[0],
       tags: postResult.rows[0].tags
@@ -148,6 +159,7 @@ exports.show = async (req, res) => {
       title: post.title,
       post,
       comments: commentsResult.rows,
+      rating: ratingResult.rows[0],
       isLoggedIn,
       commented
     });

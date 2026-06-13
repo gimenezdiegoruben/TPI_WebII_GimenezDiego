@@ -32,6 +32,18 @@ CREATE TABLE IF NOT EXISTS comments (
 CREATE INDEX IF NOT EXISTS idx_comments_post_id ON comments(post_id);
 CREATE INDEX IF NOT EXISTS idx_comments_user_id ON comments(user_id);
 
+CREATE TABLE IF NOT EXISTS ratings (
+    id SERIAL PRIMARY KEY,
+    post_id INTEGER NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    value INTEGER NOT NULL CHECK (value >= 1 AND value <= 5),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (post_id, user_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_ratings_post_id ON ratings(post_id);
+CREATE INDEX IF NOT EXISTS idx_ratings_user_id ON ratings(user_id);
+
 INSERT INTO users (id, username, email, password, gender)
 VALUES (1, 'Diego Gimenez', 'diegogimenez@fotaza.com', 'temporalgimenez', 'Masculino')
 ON CONFLICT (id) DO NOTHING;

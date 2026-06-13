@@ -21,6 +21,37 @@ block content
         strong Etiquetas:
         |  #{post.tags.join(', ')}
 
+    if rating
+      p
+        strong Valoración promedio:
+        |  #{rating.average_rating} / 5
+      p
+        strong Cantidad de votos:
+        |  #{rating.total_votes}
+      p
+        strong Estrellas:
+        |  
+        if rating.average_rating >= 1
+          | ★
+        else
+          | ☆
+        if rating.average_rating >= 2
+          | ★
+        else
+          | ☆
+        if rating.average_rating >= 3
+          | ★
+        else
+          | ☆
+        if rating.average_rating >= 4
+          | ★
+        else
+          | ☆
+        if rating.average_rating >= 5
+          | ★
+        else
+          | ☆
+
     if commented
       .success-box Comentario agregado correctamente.
 
