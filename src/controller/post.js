@@ -1,5 +1,8 @@
 const pool = require('../config/db');
 
+
+// Datos de ejemplo que se mantienen como respaldo mientras la aplicación
+// termina de migrarse completamente a PostgreSQL.
 const mockPosts = [
   {
     id: 1,
@@ -29,6 +32,9 @@ const mockPosts = [
     tags: ['python', 'programacion', 'backend']
   }
 ];
+
+//Obtiene el listado de publicaciones.
+//Primero intenta leer desde PostgreSQL y, si no hay registros o falla la consulta, usa los datos mock como respaldo temporal.
 
 exports.index = async (req, res) => {
   const isLoggedIn = req.query.auth === 'ok';
@@ -74,6 +80,7 @@ exports.index = async (req, res) => {
   }
 };
 
+//Muestra el formulario para crear una nueva publicación.
 exports.newForm = (req, res) => {
   const isLoggedIn = req.query.auth === 'ok';
 
@@ -83,22 +90,53 @@ exports.newForm = (req, res) => {
   });
 };
 
-exports.show = (req, res) => {
+//Obtiene el detalle de una publicación específica desde PostgreSQL. Si no encuentra resultados responde con error 404.
+exports.show = async (req, res) => {
   const id = Number(req.params.id);
   const isLoggedIn = req.query.auth === 'ok';
-  const post = mockPosts.find(p => p.id === id);
 
-  if (!post) {
-    return res.status(404).send('Publicación no encontrada');
+  try {
+    const result = await pool.query(
+      `
+      SELECT 
+        posts.id,
+        users.username AS author,
+        TO_CHAR(posts.created_at, 'DD/MM/YYYY') AS date,
+        posts.title,
+        posts.description,
+        posts.image_url AS image,
+        posts.tags
+      FROM posts
+      INNER JOIN users ON posts.user_id = users.id
+      WHERE posts.id = $1
+      `,
+      [id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).send('Publicación no encontrada');
+    }
+
+    const post = {
+      ...result.rows[0],
+      tags: result.rows[0].tags
+        ? result.rows[0].tags.split(',').map(tag => tag.trim())
+        : []
+    };
+
+    res.render('posts/show', {
+      title: post.title,
+      post,
+      isLoggedIn
+    });
+  } catch (error) {
+    console.error('Error al obtener detalle de publicación:', error.message);
+    res.status(500).send('No se pudo cargar la publicación.');
   }
-
-  res.render('posts/show', {
-    title: post.title,
-    post,
-    isLoggedIn
-  });
 };
 
+
+//Inserta una nueva publicación en PostgreSQL usando un usuario de prueba. Más adelante este user_id deberá reemplazarse por el usuario autenticado real.
 exports.create = async (req, res) => {
   const { title, description, image, tags } = req.body;
 
@@ -118,4 +156,5 @@ exports.create = async (req, res) => {
   }
 };
 
-exports.mockPosts = mockPosts; //reutilizar datos en el buscador
+//Exporta los datos mock para reutilizarlos en otras partes de la aplicación, por ejemplo en el buscador mientras la migración a base de datos sigue en proceso.
+exports.mockPosts = mockPosts;
